@@ -1,0 +1,91 @@
+const fs = require('fs');
+
+const path = require('path');
+
+const opts = { encoding: 'utf8'};
+
+
+function readfile (filename) {
+  //const res = '';
+  const filepath = path.join('./logs', filename);
+  const res = fs.readFile(filepath, opts, (err, data) => {
+    if (err) throw err;
+    return data;
+    //console.log(data);
+  })
+  return res;
+};
+
+function readFileSync (filename) {
+  filepath = path.join('./logs', filename);
+  return fs.readFileSync(filepath, opts)
+};
+
+
+function readdir(dirname) {
+  return new Promise((done, fail) => {
+    fs.readdir(dirname, opts, (err, filenames) => {
+
+      if (err) {
+        fail(err);
+      } else {
+
+        let outObj = {};
+        let outArr = [];
+
+        for (let i=0; i<filenames.length; i++) {
+          outObj.name = filenames[i];
+          outObj.content = readFileSync(filenames[i]);
+          outArr.push(outObj);
+          outObj = {};
+          // filenames[i] += readFileSync(filenames[i]);
+        }
+
+        // console.log(readFileSync(filenames[0]));
+
+        done(outArr);
+      }
+
+    })
+  })
+};
+
+function readAll (dirname) {
+  readdir(dirname)
+    .then(filenames => readfile(filenames[1])) 
+    .then(data => console.log(data))
+    .catch(error => console.error(error))
+}
+
+// console.log(readdir('./logs'));
+
+readdir('./logs')
+  .then (result => console.log(result));
+
+module.exports = readAll;
+
+// function readAll(dirname) {
+//   let fileobj = {},
+//       files = [];
+  // return new Promise((done, fail) => {
+  //   fs.readdir(dirname, opts, (errr, filenames) => {
+  //     if (errr) throw errr;
+  //     filenames.forEach(filename => {
+  //       fs.readFile(filename, opts, (err, filecontent) => {
+  //         if (err) throw err;
+  //         fileobj.name = filename;
+  //         fileobj.content = filecontent;
+  //         files.push(fileobj);
+  //         fileobj = {};
+  //       })
+  //     })
+  //   });
+  //     if (error) {
+  //       fail(error);
+  //     } else {
+  //       done(files);
+  //     }
+  //   })
+  // }
+
+

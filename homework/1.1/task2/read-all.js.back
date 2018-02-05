@@ -1,0 +1,45 @@
+const fs = require('fs');
+
+const opts = { encoding: 'utf8'};
+
+// let filenames = '';
+
+function readdir(dirname) {
+  return new Promise((done, fail) => {
+    fs.readdir(dirname, opts, (err, filenames) => {
+      if (err) {
+        fail(err);
+      } else {
+        done(filenames);
+      }
+    })
+  })
+};
+
+module.exports = readdir;
+
+// function readAll(dirname) {
+//   let fileobj = {},
+//       files = [];
+  // return new Promise((done, fail) => {
+  //   fs.readdir(dirname, opts, (errr, filenames) => {
+  //     if (errr) throw errr;
+  //     filenames.forEach(filename => {
+  //       fs.readFile(filename, opts, (err, filecontent) => {
+  //         if (err) throw err;
+  //         fileobj.name = filename;
+  //         fileobj.content = filecontent;
+  //         files.push(fileobj);
+  //         fileobj = {};
+  //       })
+  //     })
+  //   });
+  //     if (error) {
+  //       fail(error);
+  //     } else {
+  //       done(files);
+  //     }
+  //   })
+  // }
+
+
