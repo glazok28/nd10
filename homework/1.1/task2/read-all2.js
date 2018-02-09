@@ -25,8 +25,10 @@ function readAll(dirPath) {
     .then((files) => {
       // тут заменить return [] на обработку files через Promise.all + Array.map
       // пример https://repl.it/@alQlagin/Promiseall-Arraymap
-      Promise.all (files.map(file => file + 'adada'))
+      return Promise.all (files.map(file => file + 'adada'))
     })
 }
+
+
 
 module.exports = {readAll};
