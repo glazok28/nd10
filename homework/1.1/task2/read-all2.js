@@ -16,16 +16,33 @@ function readDirectoryListing(dirPath){
             } else {
               return resolve(files)
             }
-        })
-  });
+        });
 }
+
+)
+
+};
+
+  function readFile(filePath){
+    return new Promise((resolve, reject) => {
+      fs.readFile(filePath, conf, (err, file) => {
+        if(err) {
+          return reject(err);
+        } else {
+          return resolve(file)
+        }
+      }
+      )
+    })
+  };
+
 
 function readAll(dirPath) {
     return readDirectoryListing(dirPath)
     .then((files) => {
       // тут заменить return [] на обработку files через Promise.all + Array.map
       // пример https://repl.it/@alQlagin/Promiseall-Arraymap
-      return Promise.all (files.map(file => file + 'adada'))
+      return  Promise.all (files.map(fileName => readFile(dirPath+fileName) ))
     })
 }
 
