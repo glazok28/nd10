@@ -5,16 +5,16 @@ const conf = { encoding: 'utf8' };
 function readDirectoryListing(dirPath){
   return new Promise((resolve, reject) => {
         let dir = path.join(__dirname, dirPath);
-        let file = {
-            name: undefined,
-            content: undefined
-        }
+        // let file = {
+        //     name: undefined,
+        //     content: undefined
+        // }
 
         fs.readdir(dir, conf, (err, files) => {
             if(err) {
-              return reject(err);
+               reject(err);
             } else {
-              return resolve(files)
+               resolve(files)
             }
         });
 }
@@ -27,9 +27,9 @@ function readDirectoryListing(dirPath){
     return new Promise((resolve, reject) => {
       fs.readFile(filePath, conf, (err, file) => {
         if(err) {
-          return reject(err);
+          reject(err);
         } else {
-          return resolve(file)
+          resolve({content: file, name: filePath})
         }
       }
       )
